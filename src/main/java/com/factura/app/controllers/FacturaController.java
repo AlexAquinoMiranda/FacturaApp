@@ -52,7 +52,7 @@ public class FacturaController {
 		fac.setUsuario(userService
 				.findOne((long) 1));/**
 									 * 
-									 * error aquí tengo que poner un campo de usuarioId para que pueda recuperarla.
+									 *  aquí tengo que poner un campo de usuarioId para que pueda recuperarla.
 									 *
 									 *
 									 *
@@ -61,7 +61,7 @@ public class FacturaController {
 		fac.setObservacion("nada de nada");
 
 		this.facturaService.save(fac);
-		// clienteService.findFacturaById(id);
+		
 
 		if (factura == null) {
 			flash.addFlashAttribute("error", "Se ha producido un error, no existe en la BBDD");
@@ -138,7 +138,7 @@ public class FacturaController {
 		List<ItemFactura> jugadores = this.facturaItemService.findAll();
 		model.addAttribute("titulo", "Listado de jugadores");
 		model.addAttribute("items", jugadores);
-		// model.addAttribute("page", pageRender);
+		
 		return "factura/listarFactura";
 	}
 

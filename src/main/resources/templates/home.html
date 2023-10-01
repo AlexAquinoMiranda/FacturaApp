@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body style="background-color: rgb(0, 255, 128);
+ 			
+           ">
+	</script>
+	<link rel="stylesheet" th:href="@{/css/welcome.css}" />
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+	<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}" />
+	</script>
+
+	<title th:text="${titulo}"></title>
+	<style>
+
+	</style>
+
+
+	<!--<header th:replace="layout/layout :: header"></header>-->
+
+
+
+	<form th:action="@{/home}" th:object="${usuario}" method="post" enctype="multipart/form-data"
+		style="background-color: rgb(0, 255, 128);">
+		<div class="wrapper fadeInDown">
+			<div id="formContent">
+				<!-- Tabs Titles -->
+				<h2 class="active" th:text="${inicio}"> </h2>
+				<h2 class="inactive underlineHover" th:text="${crear}"> </h2>
+
+				<!-- Icon -->
+				<div class="fadeIn first">
+					<img src="https://cdn.icon-icons.com/icons2/1494/PNG/512/user_102890.png" id="icon"
+						alt="User Icon" />
+				</div>
+
+				<!-- Login Form -->
+				<form>
+					<input type="email" id="login" th:field="*{email}" th:errorclass="'form-control alert-danger'"
+						class="fadeIn second" name="login" placeholder="email"><br>
+
+					<input type="text" id="password" th:field="*{nombre}" th:errorclass="'form-control alert-danger'"
+						class="fadeIn third" name="login" placeholder="name"><br>
+
+					<input type="text" id="login" th:field="*{apellido}" th:errorclass="'form-control alert-danger'"
+						class="fadeIn second" name="login" placeholder="apellido"><br>
+
+					<input type="text" id="password" th:field="*{direction}" th:errorclass="'form-control alert-danger'"
+						class="fadeIn third" name="login" placeholder="direccion"><br>
+
+					<br>
+				</form>
+				<br>
+				<!-- Remind Passowrd -->
+				<div id="formFooter">
+					<div class="form-group row">
+						<div class="col">
+							<input type="submit" value="Crear Usuario" class="btn btn-outline-secondary" />
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</form>
+	<!-- <footer th:replace="layout/layout :: footer"></footer>-->
+
+</body>
+
+</html>

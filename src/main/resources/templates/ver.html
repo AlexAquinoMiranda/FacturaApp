@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head th:replace="layout/layout :: head"></head>
+
+<style>
+	/* Estilos para la tarjeta del jugador */
+	.player-card {
+		width: 200px;
+		height: 200px;
+		border: 1px solid #ccc;
+		position: relative;
+		/* Agregamos posición relativa al contenedor */
+		margin: 10px;
+		background-color: #f9f9f9;
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	/* Estilos para la imagen del jugador (en primer plano) */
+	.player-image {
+		position: absolute;
+		/* Posición absoluta para superponerla */
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* Estilos para los datos del jugador */
+	.player-info {
+		font-size: 12px;
+		text-align: center;
+		padding: 5px;
+		background-color: rgba(255, 255, 255, 0.7);
+		/* Fondo semitransparente para legibilidad */
+		position: relative;
+		/* Ajustamos la posición para que esté dentro del cromo */
+	}
+
+	.player-name {
+		font-size: 14px;
+		font-weight: bold;
+		margin-top: 5px;
+	}
+
+
+
+
+	p {
+		color: inherit !important;
+		font-size: inherit !important;
+		;
+
+
+	}
+
+	.main-header.inside .main-nav-container {
+		background-color: #ffffff;
+	}
+
+	.main-header .breadcrumbs {
+		position: relative;
+		z-index: 1;
+	}
+
+	.main {
+		background: none !important;
+		padding-bottom: 0px;
+	}
+
+	.main:first-of-type {
+		padding-top: 0px;
+	}
+
+	.main-header.inside~.main:first-of-type>.tab-title.visible .container-header {
+		width: 990px;
+		border-bottom: solid 1px #141d25;
+		position: absolute;
+		left: -900000px;
+	}
+
+	.seo-links-container {
+		display: none;
+	}
+
+	.seo-links-container .list-seo-links a {
+		display: inline-block;
+	}
+
+	.main .tab-title {
+		margin-bottom: 0px;
+		height: 0px;
+		width: 100%;
+	}
+
+	.row-layout .container {
+		padding: 0px 0;
+	}
+
+	.container {
+		width: 100%;
+		max-width: 100%;
+		margin-right: auto;
+		margin-left: auto;
+	}
+
+	.breadcrumbs .tab-breadcrumb-list li.active a {
+		background-color: transparent;
+	}
+
+	.content-ad .ad-item-si,
+	.content-ad .ad-item-sd {
+		display: none;
+	}
+
+	.main-header.inside.futbol .main-tab-futbol>a.highlight,
+	.main-header.inside[data-ue-model="futbol"] .main-tab-futbol>a.highlight {
+		background-color: transparent;
+		color: #000;
+	}
+
+	.main-header.inside.futbol .main-tab-futbol>a.highlight .iconsvg-down-b,
+	.main-header.inside[data-ue-model="futbol"] .main-tab-futbol>a.highlight .iconsvg-down-b {
+		background-position: -1px -179px;
+		width: 16px;
+		height: 16px;
+	}
+
+	.marca-theme-v2 .ue-l-common-page__inner {
+		position: absolute;
+		left: -900000px;
+	}
+
+
+	#alhwrapper {
+		font-family: 'Barlow Semi Condensed', sans-serif;
+		max-width: 1500px;
+		/* background-color: orange; */
+		margin: 0 auto;
+	}
+
+	h1 {
+		/* background-color: red; */
+		/* text-align: center; */
+	}
+
+	#alhwrapper #encabezado {
+		display: grid;
+		font-family: 'Chakra Petch', sans-serif;
+		width: 50vw;
+		margin: 0 auto 1em auto;
+		text-align: center;
+		justify-items: center;
+	}
+
+	#alhwrapper #encabezado img {
+		max-width: 33vw;
+	}
+
+	#alhwrapper #encabezado #introduccion .titulin {
+		color: #cc0000;
+		border-top: 1px dashed #222;
+		border-bottom: 1px dashed #222;
+		line-height: 1em;
+		padding-top: 2px;
+		margin: 0.5em 0em;
+		/* background-color: yellow; */
+	}
+
+	#alhwrapper #encabezado #introduccion h1.titulin {
+		font-family: 'Chakra Petch', sans-serif;
+		font-size: 2.6em;
+		font-weight: bold;
+	}
+
+	#alhwrapper #encabezado #introduccion .titulin span {
+		color: #222;
+		font-size: .9em;
+		text-transform: uppercase;
+		/* padding-left: 10px; */
+		font-weight: 200;
+		font-family: 'Chakra Petch', sans-serif;
+
+	}
+
+	#alhwrapper #encabezado #introduccion p {
+		color: #222;
+		font-size: 16px !important;
+	}
+
+
+
+
+	.contador {
+		border-bottom: 1px dashed #222;
+		padding-bottom: 0.5em;
+		margin: 0.5em 0em;
+	}
+
+	.contador p {
+		color: #222;
+		font-size: 16px !important;
+	}
+
+
+	#timer {
+		font-size: 3em;
+		color: #cc0000;
+		font-weight: bold;
+
+	}
+
+	#timer div {
+		display: inline-block;
+		min-width: 90px;
+	}
+
+	#timer div span {
+		color: #222;
+		display: block;
+		font-size: .35em;
+		font-weight: 400;
+	}
+
+
+
+
+	#alhwrapper #elfooter {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		background-color: #222;
+		color: rgb(173, 173, 173);
+		font-family: 'Barlow Condensed', sans-serif;
+		height: auto;
+		padding: 20px;
+		text-align: center;
+		font-weight: 200;
+		text-transform: uppercase;
+		font-size: 14px;
+		margin-top: 3em;
+	}
+
+	#alhwrapper #elfooter p {
+		border-bottom: 1px solid #494949;
+		padding: 10px;
+		display: block;
+	}
+
+	#alhwrapper #elfooter p b {
+		font-weight: 200;
+		color: white;
+	}
+
+	.site-footer {
+		margin: 0px 0 0;
+		background: #222;
+		overflow: hidden;
+	}
+
+	#alhwrapper #elfooter img {
+		width: 100px;
+		margin-top: 1em;
+	}
+
+	#alhwrapper #elfooter p.nit {
+		font-size: 12.3px !important;
+		border: none;
+		padding: 0;
+		margin: 0;
+	}
+
+
+
+
+
+	#alhwrapper #losbotones {
+		max-width: 1000px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: auto auto auto auto auto;
+		grid-gap: 10px;
+		list-style: none;
+		padding: 0;
+	}
+
+	#alhwrapper #losbotones .conten .numero {
+		font-family: 'Chakra Petch', sans-serif;
+		background-color: pink;
+		font-weight: 800;
+	}
+
+
+	.cuadrado {
+		fill: tomato;
+		opacity: 0;
+	}
+
+	.contenedorEscudo {
+		position: relative;
+	}
+
+	.contenedorEscudo {
+		cursor: pointer;
+	}
+
+	.contenedorEscudo .nombreJugador {
+		pointer-events: none;
+		width: 92%;
+		white-space: nowrap;
+	}
+
+	.contenedorEscudo .bandaNombre {
+		fill: #797676;
+		transition: all 0.3s ease-out;
+	}
+
+	.contenedorEscudo:hover .bandaNombre,
+	.contenedorEscudo:focus-within .bandaNombre {
+		fill: #0A0505;
+	}
+
+	.contenedorEscudo:hover .nombreJugador,
+	.contenedorEscudo:focus-within .nombreJugador {
+		background-color: #0A0505;
+		transition: all 0.3s ease-out;
+	}
+
+	.circuloNumero {
+		fill: #797676;
+
+	}
+
+	.escudoBorde {
+		fill: none;
+		stroke: #c9c9c9;
+		stroke-miterlimit: 10;
+		stroke-dasharray: 0;
+		transition: stroke-dashoffset 0.3s ease-out;
+	}
+
+	.contenedorEscudo:hover .escudoBorde {
+		stroke-dasharray: 100;
+		stroke-dashoffset: 100;
+		stroke: #0A0505;
+	}
+
+	.contenedorEscudo.no-hover {
+		cursor: auto;
+	}
+
+	.contenedorEscudo.no-hover .escudoBorde {
+		stroke: #EA1A1F;
+		stroke-dasharray: 0;
+	}
+
+	.contenedorEscudo.no-hover .bandaNombre {
+		fill: #EA1A1F;
+		transition: all 0.3s ease-out;
+	}
+
+	.contenedorEscudo.no-hover .circuloNumero {
+		fill: #EA1A1F;
+		transition: all 0.3s ease-out;
+	}
+
+	.contenedorEscudo.no-hover .numJugador p {
+		background-color: #EA1A1F;
+		transition: all 0.3s ease-out;
+	}
+
+	.contenedorEscudo.no-hover .nombreJugador {
+		background-color: #EA1A1F;
+		transition: all 0.3s ease-out;
+	}
+
+
+
+
+	.btn.no-hover:hover {
+		/* Estilos sin hover */
+	}
+
+
+
+
+	.escudoRelleno {
+		fill: url(#degradadoRellenoEscudo);
+	}
+
+
+
+
+
+	.maquetacionEscudo {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		text-align: center;
+		box-sizing: border-box;
+	}
+
+	.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera {
+		height: 40px;
+		margin-top: -10%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 10%;
+		color: #616160;
+		font-size: 15px;
+	}
+
+	.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera .escudoObandera {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera img {
+		max-height: 20px;
+	}
+
+	.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera .elPng {
+		padding-right: 3px;
+	}
+
+	.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera .elSvg {
+		padding-left: 3px;
+		max-height: 18px;
+		height: 100px;
+	}
+
+
+	.contenedorEscudo .maquetacionEscudo .laLiga {
+		width: 50px;
+		opacity: .2;
+		padding: 40% 10%;
+	}
+
+	.contenedorEscudo .maquetacionEscudo .laLiga img {
+		width: 50px;
+		max-width: 50px;
+	}
+
+	.nombreJugador {
+		background-color: #797676;
+		position: absolute;
+		text-align: center;
+		left: 4%;
+		right: 4%;
+		top: 25%;
+		bottom: 55%;
+		font-family: 'Barlow Condensed', sans-serif;
+		text-transform: uppercase;
+		font-size: 1.6vw;
+		font-weight: 800;
+		line-height: 1.8vw;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		color: white;
+		border: 0;
+		margin: 11px 0;
+		transition: background-color 0.3s ease-out;
+	}
+
+	.nombreJugador p {
+		white-space: nowrap;
+		margin: auto 0;
+		display: block;
+		vertical-align: middle;
+		color: white;
+
+	}
+
+
+	.numJugador {
+		font-family: 'Chakra Petch', sans-serif;
+		font-size: 2vw;
+		color: white;
+		font-weight: 800;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 18%;
+	}
+
+	.numJugador p {
+		display: block;
+		letter-spacing: -0.05rem;
+		padding-top: 3px;
+		background-color: #797676;
+		font-size: 1rem !important;
+		border-radius: 50%;
+
+	}
+
+
+	#ficha {
+		max-width: 1000px;
+		border-top: 5px solid #cc0000;
+		background-color: #0A0505;
+		width: auto;
+		grid-column: 1 / -1;
+		grid-row: row 1;
+		opacity: 0;
+		height: 0;
+		transition: opacity 0.3s, height 0.3s;
+	}
+
+	#ficha #fichaGrid {
+		display: grid;
+		grid-template-columns: 50% 25% 25%;
+	}
+
+	#ficha #ficha01-nombre {
+		background-color: #616160;
+		font-family: 'Chakra Petch', sans-serif;
+		color: white;
+		position: relative;
+	}
+
+	#ficha #ficha01-nombre #fotoEnJuego {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		display: block;
+		object-fit: cover;
+	}
+
+	#ficha #ficha01-nombre #posi-punt {
+		display: grid;
+		grid-template-columns: auto auto;
+		height: 40px;
+	}
+
+	#ficha #ficha01-nombre #controladores {
+		display: flex;
+		justify-content: space-around;
+		background-color: #cc0000;
+		padding: 5px;
+	}
+
+
+	#ficha #ficha01-nombre button img {
+		width: 40px;
+		width: clamp(30px, 3vw, 40px);
+		background-color: white;
+		border-radius: 50%;
+		cursor: pointer;
+	}
+
+	#ficha #ficha01-nombre #controladores button {
+		background-color: transparent;
+		border: 0;
+	}
+
+	#ficha #ficha01-nombre #controladores button:hover img,
+	#ficha #ficha01-nombre #controladores button:focus-within img {
+		background-color: #13D0D1;
+	}
+
+	#ficha #ficha01-nombre #contenedorOverFoto {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	#ficha #ficha01-nombre #posi-punt {
+		background: rgb(0, 0, 0);
+		background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 100%);
+		width: 30%;
+		height: 80%;
+		display: flex;
+		flex-direction: column;
+	}
+
+
+
+	#ficha #ficha01-nombre #posi-punt #ranking {
+		color: #ffffff;
+		font-weight: 800;
+		font-size: 8em;
+		margin-top: 12px;
+		display: inline;
+		align-self: center;
+		justify-self: center;
+		margin: 0;
+		display: block;
+		text-align: center;
+		border-bottom: 1px solid rgba(255, 255, 255, .3);
+	}
+
+	#ficha #ficha01-nombre #posi-punt #punt {
+		display: inline;
+		height: 100%;
+		font-style: italic;
+		align-self: center;
+		justify-self: center;
+		margin: -3px 0;
+		line-height: 52px;
+		font-weight: 200;
+		color: rgb(203, 203, 203) !important;
+		display: block;
+		text-align: center;
+		border-bottom: 1px solid rgba(255, 255, 255, .3);
+		font-weight: 700 !important;
+		font-size: 1.7em !important;
+	}
+
+	#ficha #ficha01-nombre #posi-punt #punt span {
+		font-size: .7em;
+		font-weight: 200;
+	}
+
+	#ficha #ficha01-nombre #posi-punt #contenedorPosAnterior {
+		margin: 0 auto;
+		font-size: 1.5em;
+		font-weight: 700;
+		margin-top: 8px;
+	}
+
+	#ficha #ficha01-nombre #posi-punt #textoFijo {
+
+		font-weight: 200;
+		font-family: 'Barlow Condensed', sans-serif;
+		text-transform: uppercase;
+		font-size: 1em !important;
+	}
+
+	#ficha #ficha01-nombre #posi-punt .clasePosAnterior {
+		display: inline;
+	}
+
+	#ficha #ficha01-nombre #posi-punt #posAnterior {
+		font-size: .8em;
+	}
+
+	#ficha #ficha01-nombre #posi-punt #subeobaja {
+		text-align: center;
+		border-top: 1px solid rgba(255, 255, 255, .3);
+		border-bottom: 1px solid rgba(255, 255, 255, .3);
+		padding: 9px;
+		margin-top: 9px;
+		font-weight: 700;
+		font-size: 1.5em;
+		text-shadow: 0 0 10px #000;
+		line-height: 1em;
+		color: rgb(205, 187, 50);
+		text-transform: uppercase;
+	}
+
+	#ficha #ficha01-nombre #nombre {
+		font-size: 4.7vw;
+		font-family: 'Barlow Condensed', sans-serif;
+		color: white;
+		margin-bottom: 0;
+		margin-top: 0;
+		bottom: -21px;
+		text-transform: uppercase;
+		margin-left: 10px;
+		white-space: nowrap;
+		font-weight: 800 !important;
+
+	}
+
+	#ficha #ficha01-nombre #divDeNombre {
+		background: rgb(0, 0, 0);
+		background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%);
+	}
+
+
+
+
+	#ficha #ficha01-nombre #posi-punt #subeobaja.sube {
+		color: #13D0CA !important;
+		font-size: 2em !important;
+	}
+
+	#ficha #ficha01-nombre #posi-punt #subeobaja.baja {
+		color: #ff2b30 !important;
+		font-size: 2em !important;
+	}
+
+	#ficha #ficha01-nombre #posi-punt #logopq {
+		padding: 15px;
+		margin-top: -5px;
+	}
+
+	#ficha #ficha01-nombre .mantiene {
+		color: grey;
+	}
+
+	#ficha #ficha01-nombre #posi-punt #subeobaja.mantiene.nuevaentrada {
+		transform: rotate(-6deg);
+		font-family: 'Barlow Condensed', sans-serif;
+		font-weight: 400;
+		border-top: 1px solid rgba(205, 187, 50, .8);
+		border-bottom: 1px solid rgba(205, 187, 50, .8);
+		margin-top: 20px;
+		font-size: 1.8em !important;
+		color: rgb(205, 187, 50) !important;
+
+	}
+
+
+	.contenedor {
+		padding: 15px;
+	}
+
+	.elgridcomotabla {
+		display: grid;
+		grid-template-columns: auto .4fr auto;
+	}
+
+	.elgridcomotabla img {
+		width: 25px;
+	}
+
+
+	.elgridcomotabla img#imgEquipo {
+		background-color: white;
+		border-radius: 50%;
+		padding: 3px;
+		margin-right: 3px;
+	}
+
+	.elgridcomotabla img#imgLiga {
+		width: 30px;
+	}
+
+	.elgridcomotabla img#imgEdad {
+		width: 25px;
+	}
+
+
+	.elgridcomotabla .band img {
+		width: 22px;
+		margin-right: 3px;
+		border: 1px solid rgba(255, 255, 255, 1);
+		border-radius: 50%;
+		background-color: rgba(255, 255, 255, 1);
+	}
+
+	.elgridcomotabla .img-tabla {
+		display: grid;
+		justify-content: center;
+		align-content: center;
+	}
+
+	.elgridcomotabla .gridcelda {
+		border-bottom: 1px solid #222222;
+		padding: 5px 0;
+		color: black;
+		font-weight: 400;
+		font-size: 1.3em;
+	}
+
+	.elgridcomotabla .gridcelda.ultima {
+		border-bottom: 0;
+	}
+
+	#id3 {
+		height: auto;
+		line-height: 2em;
+		transition: all 1s ease-out;
+		color: #fff;
+	}
+
+
+	#ficha #ficha02-tablaycampo {
+		background-color: #EA1A1F;
+		font-family: 'Barlow Condensed', sans-serif;
+		font-weight: 200;
+		text-transform: uppercase;
+	}
+
+
+	#ficha #ficha02-tablaycampo .resp-tabla {
+		color: white;
+		font-weight: 800;
+		white-space: nowrap;
+		overflow: hidden;
+		font-size: 1.4em;
+	}
+
+
+
+
+
+	#ficha #ficha03-texto {
+		margin: 15px;
+	}
+
+	#ficha #ficha03-texto p {
+		color: #eaeaea;
+		font-family: 'Barlow', sans-serif;
+		font-size: 1.6em !important;
+		;
+		line-height: 1.4em;
+		margin: 1em 0em;
+		color: #fff !important;
+	}
+
+	#ficha #ficha03-texto h3#titulo {
+		color: #ff2b30;
+		text-transform: uppercase;
+		font-size: 1.9em;
+		font-weight: 800;
+		line-height: 1em;
+		margin-top: 14px;
+		font-family: 'Barlow Condensed', sans-serif;
+		margin-bottom: 1em;
+	}
+
+	#ficha #ficha03-texto strong#titulo {
+		color: #ff2b30;
+		text-transform: uppercase;
+		font-size: 1.9em;
+		font-weight: 800;
+		line-height: 1em;
+		margin-top: 14px;
+		font-family: 'Barlow Condensed', sans-serif;
+		margin-bottom: 1em;
+	}
+
+	.hidden-content {
+		position: absolute !important;
+		height: 1px;
+		width: 1px;
+		overflow: hidden;
+		clip: rect(1px, 1px, 1px, 1px);
+		-webkit-clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+		clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+		background-color: #fff;
+		color: #000;
+	}
+
+
+	/* Estilo para quitar el recuadro de enfoque */
+	:focus {
+		outline: none;
+	}
+
+
+	@media only screen and (min-width: 1500px) {
+
+		ul li,
+		ol li {
+			margin-right: 0px;
+		}
+
+		.nombreJugador {
+			font-size: 25px;
+			line-height: 25px;
+		}
+
+		.numJugador {
+			font-size: 30px;
+		}
+
+		#ficha #ficha01-nombre #nombre {
+			font-size: 2.7vw;
+		}
+	}
+
+	@media only screen and (max-width: 980px) {
+
+		ul li,
+		ol li {
+			margin-right: 0px;
+		}
+
+		#alhwrapper #losbotones {
+			grid-template-columns: auto auto auto auto;
+		}
+
+		.nombreJugador {
+			font-size: 3vw;
+		}
+
+		#ficha #ficha01-nombre #nombre {
+			font-size: 7vw;
+		}
+
+	}
+
+	@media only screen and (max-width: 800px) {
+
+		ul li,
+		ol li {
+			margin-right: 0px;
+		}
+
+		.news-item p {
+
+			padding: 0px !important;
+		}
+
+		.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera {
+			margin-top: -12%;
+		}
+
+		#ficha #fichaGrid {
+			grid-template-columns: 60% 40%;
+			grid-template-rows: 500px 100%;
+		}
+
+		#ficha #ficha03-texto {
+			grid-column: 1 / span 2;
+		}
+
+		#ficha #ficha01-nombre #nombre {
+			font-size: 8vw;
+		}
+
+	}
+
+
+	@media only screen and (min-width: 581px) and (max-width: 666px) {
+		/* Estilos CSS para dispositivos con un ancho de pantalla entre 481px y 768px */
+		/* body{
+        background-color: red;
+    } */
+
+		#ficha #ficha01-nombre #posi-punt #punt {
+			font-size: 1.4em !important;
+		}
+
+		ul li,
+		ol li {
+			margin-right: 0px;
+		}
+
+		.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera {
+			margin-top: -16%;
+			font-size: 14px;
+		}
+
+		.news-item p {
+			font-family: 'Chakra Petch', sans-serif !important;
+			padding: 0px 0;
+
+		}
+
+		#ficha #ficha01-nombre #posi-punt #textoFijo {
+			font-weight: 200;
+			font-family: 'Barlow Condensed', sans-serif !important;
+			text-transform: uppercase;
+			font-size: 0.9em !important;
+		}
+	}
+
+	@media only screen and (max-width: 580px) {
+		.content-items .content-item {
+			padding: 0px;
+
+		}
+
+		#ficha #ficha01-nombre #posi-punt #punt {
+			font-size: 1.4em !important;
+		}
+
+		/* body{
+        background-color: pink;
+    } */
+		ul li,
+		ol li {
+			margin-right: 0px;
+		}
+
+		#alhwrapper #losbotones {
+			grid-template-columns: auto auto auto;
+			grid-gap: 10px;
+		}
+
+		#alhwrapper #encabezado img {
+			max-width: 80vw;
+		}
+
+		#alhwrapper #encabezado {
+			width: 95vw;
+		}
+
+		#ficha #fichaGrid {
+			grid-template-columns: 100%;
+			grid-template-rows: 500px auto auto;
+		}
+
+		#ficha #ficha03-texto {
+			grid-column: inherit;
+		}
+
+		#alhwrapper .numJugador p {
+			font-size: 1rem !important;
+			;
+		}
+
+		.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera {
+			font-size: 13px;
+			margin-top: -12%;
+			padding: 0 6%;
+		}
+
+		.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera .elPng {
+			padding-right: 1px;
+		}
+
+		.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera .elSvg {
+			padding-left: 1px;
+			max-height: 15px;
+		}
+
+		.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera img {
+			max-height: 17px;
+		}
+
+		.nombreJugador {
+			font-size: 4vw;
+			overflow: inherit;
+			white-space: nowrap;
+		}
+
+		.contenedorEscudo .maquetacionEscudo .laLiga {
+			width: 50px;
+			opacity: .2;
+			padding: 36% 3%;
+		}
+
+		.contenedorEscudo .maquetacionEscudo .laLiga img {
+			width: 40px;
+			max-width: 40px;
+		}
+
+		#ficha #ficha01-nombre #posi-punt #logopq {
+			padding: 5px;
+		}
+
+		#ficha #ficha01-nombre #nombre {
+			font-size: 14vw;
+		}
+
+		#ficha #ficha01-nombre #posi-punt #ranking {
+			font-size: 7em;
+		}
+
+		#ficha #ficha01-nombre #posi-punt #textoFijo {
+			font-weight: 200;
+			font-family: 'Barlow Condensed', sans-serif !important;
+			text-transform: uppercase;
+			font-size: 0.9em !important;
+		}
+	}
+
+	@media only screen and (max-width: 480px) {
+		.content-items .content-item {
+			padding: 0px;
+
+		}
+
+		/* body{
+        background-color: orange;
+    } */
+		#ficha #ficha01-nombre #posi-punt #textoFijo {
+			font-weight: 200;
+			font-family: 'Barlow Condensed', sans-serif !important;
+			text-transform: uppercase;
+			font-size: 0.9em !important;
+		}
+
+		li {
+			margin-right: 0px;
+		}
+
+		.contenedorEscudo .maquetacionEscudo .bandaEscudoyBandera {
+			margin-top: -16%;
+		}
+
+		#ficha #ficha01-nombre #posi-punt #punt {
+			font-size: 1.4em !important;
+		}
+	}
+
+
+
+
+
+	@media screen and (max-width: 768px) {
+
+		li {
+			margin-right: 0px;
+		}
+
+		.news-item p {
+			font-family: inherit !important;
+			padding: 0px;
+
+		}
+
+		.content-items .content-item {
+			padding: 0px;
+
+		}
+
+		.news-item .main p.tab-title-text {
+			display: none;
+		}
+
+		.super-menu-header+.main h1.tab-title-text.min {
+			display: none;
+		}
+
+		#alhwrapper #encabezado #introduccion p {
+			color: #222;
+			font-size: 16px !important;
+			;
+			font-family: 'Chakra Petch', sans-serif;
+		}
+
+
+		#ficha #ficha01-nombre #posi-punt #punt {
+			font-size: 1.4em !important;
+		}
+
+		#ficha #ficha01-nombre #posi-punt #textoFijo {
+			font-weight: 200;
+			font-family: 'Barlow Condensed', sans-serif !important;
+			text-transform: uppercase;
+			font-size: 0.9em !important;
+		}
+
+		#ficha #ficha01-nombre #posi-punt #subeobaja.mantiene.nuevaentrada {
+			margin-bottom: 10px;
+			padding: 9px !important;
+			line-height: 1.1em;
+			padding: 9px !important;
+		}
+
+		#ficha #ficha01-nombre #posi-punt {
+
+			width: 35%;
+
+		}
+
+		#ficha #ficha01-nombre #posi-punt #subeobaja {
+
+			line-height: 1.7em;
+
+		}
+
+		#ficha #ficha01-nombre #posi-punt #logopq {
+
+			margin-top: 2px;
+		}
+
+	}
+</style>
+
+<body>
+
+	-
+	<header th:replace="layout/layout :: header"></header>
+
+
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+
+			<div class="card-body">
+
+				<h4 class="card-title">
+
+				</h4>
+				<article>
+					<figure>
+
+						<div class="maquetacionEscudo">
+
+							<div class="player-card">
+
+								<img class="player-image" th:src="@{'/uploads/' + ${jugador.foto}}"
+									alt="Imagen del Jugador">
+								<div class="escudoObandera"><img class="elPng"
+										src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/escudos/mcity.png"
+										alt="Equipo: M. City">
+								</div>
+
+							</div>
+
+
+
+
+
+						</div>
+
+
+					</figure>
+					<br>
+					<ul class="list-group">
+						<li class="list-group-item active" th:text="${jugador.nombre} + ' ' + ${jugador.apellido}"></li>
+						<li class="list-group-item" th:text="${'DNI: ' + ' ' + jugador.dni}"></li>
+						<li class="list-group-item" th:text="${'DORSAL: ' + ' ' +jugador.dorsal}"></li>
+
+					</ul>
+				</article>
+
+
+				<!--<img th:if="${#strings.length(jugador.foto) > 0}" class="img-thumbnail rounded float-left"
+					style="max-width: 25%;" th:src="@{'/uploads/' + ${jugador.foto}}" th:alt="${jugador.foto}" />-->
+
+
+
+
+
+
+			</div>
+		</div>
+
+	</div>
+
+
+	<div id="fichaGrid" role="dialog" aria-label="Ficha del jugador">
+		<div id="ficha01-nombre" class="item">
+			<img id="fotoEnJuego"
+				src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/jugadores-ficha/haaland.jpg"
+				alt="">
+			<div id="contenedorOverFoto">
+
+
+				<div id="divDeNombre"><strong id="nombre">Haaland</strong></div>
+			</div>
+
+		</div>
+		<div id="ficha02-tablaycampo" class="item">
+
+			<div class="contenedor" id="id3">
+				<div class="elgridcomotabla">
+					<div class="gridcelda preg-tabla">Equipo:</div>
+					<div class="gridcelda img-tabla"><img id="imgEquipo"
+							src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/escudos/mcity.png"
+							alt=""></div>
+					<div id="equipo" class="gridcelda resp-tabla">M. City</div>
+
+					<div class="gridcelda preg-tabla">Liga:</div>
+					<div class="gridcelda img-tabla"><img id="imgLiga"
+							src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/ligas/blanco-premier.png"
+							alt=""></div>
+					<div id="liga" class="gridcelda resp-tabla">Premier</div>
+
+					<div class="gridcelda preg-tabla">Nacionalidad:</div>
+					<div class="gridcelda img-tabla band"><img id="imgPais"
+							src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/banderas/norway.png"
+							alt=""></div>
+					<div id="pais" class="gridcelda resp-tabla">Noruega</div>
+
+					<div class="gridcelda preg-tabla">Edad:</div>
+					<div class="gridcelda img-tabla"><img id="imgEdad"
+							src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/gral/edad.png"
+							alt=""></div>
+					<div class="gridcelda resp-tabla gr" id="edad">22 años</div>
+
+					<div class="gridcelda ultima preg-tabla">Posición:</div>
+					<div class="gridcelda ultima img-tabla"><img
+							src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/gral/posicion.png"
+							alt=""></div>
+					<div id="demarcacion" class="gridcelda ultima resp-tabla gr">atacante</div>
+				</div>
+
+
+
+			</div>
+		</div>
+		<div id="ficha03-texto" class="item full-width bg-dark">
+			<strong id="titulo">EL REY DEL GOL CONQUISTA EUROPA</strong>
+			<p id="texto">52 goles y 53 partidos. Además, 9 asistencias. Es decir, más de un gol generado por encuentro.
+				Y todos los récords superados. Si bien se esperaba que Haaland irrumpiera en la Premier League con
+				fuerza, su rendimiento ha superado cualquier expectativa. No es que sea el '9' de moda... es el '9' que
+				todos quieren ser. Un goleador total... que solamente tiene 22 años.</p>
+		</div>
+	</div>
+
+
+
+
+
+
+	<div class="container py-6">
+
+		<div class="card bg-light">
+
+			<img id="fotoEnJuego"
+				src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/jugadores-ficha/haaland.jpg"
+				alt="" width="400px" height="400px">
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+     <li class="list-group-item " th:text="${'Nombre: '}"></li>
+    </div>
+    <div class="col-6">
+     <li class="list-group-item " th:text="${jugador.nombre} "></li>
+    </div>
+  </div>
+  
+  
+   <div class="row">
+    <div class="col">
+     <li class="list-group-item " th:text="${'Apellido: '}"></li>
+    </div>
+    <div class="col-6">
+     <li class="list-group-item " th:text="${jugador.nombre} "></li>
+    </div>
+  </div>
+  
+  
+   <div class="row">
+    <div class="col">
+     <li class="list-group-item " th:text="${'Equipo: '}"></li>
+    </div>
+    <div class="col-6">
+     <li class="list-group-item " th:text="${jugador.nombre} "></li>
+    </div>
+  </div>
+  
+   <div class="row">
+    <div class="col">
+     <li class="list-group-item " th:text="${'Dorsal :'}"></li>
+    </div>
+    <div class="col-6">
+     <li class="list-group-item " th:text="${jugador.nombre} "></li>
+    </div>
+  </div>
+</div>
+
+
+			<ul class="list-group" style="align-items:safe;">
+				<li class="list-group-item active" th:text="${jugador.nombre} + ' ' + ${jugador.apellido}"></li>
+				<li class="list-group-item" th:text="${'DNI: ' + ' ' + jugador.dni}"></li>
+				<li class="list-group-item" th:text="${'DORSAL: ' + ' ' +jugador.dorsal}"></li>
+				<li class="list-group-item" th:text="${'Equipo: ' + ' ' +jugador.dorsal}"> </li>
+				<li class="list-group-item" th:text="${'Liga: ' + ' ' +jugador.dorsal}"> </li>
+				<li class="list-group-item" th:text="${'Nacionalidad: ' + ' ' +jugador.dorsal}"> </li>
+				<li class="list-group-item" th:text="${'Edad: ' + ' ' +jugador.dorsal}"> </li>
+				<li class="list-group-item" th:text="${'Posición: ' + ' ' +jugador.dorsal}"> </li>
+
+			</ul>
+
+
+			<div class="contenedor" id="id3">
+				<div class="elgridcomotabla">
+					<div class="gridcelda preg-tabla">Equipo:</div>
+					<div class="gridcelda img-tabla"><img id="imgEquipo"
+							src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/escudos/mcity.png"
+							alt=""></div>
+					<div id="equipo" class="gridcelda resp-tabla">M. City</div>
+
+					<div class="gridcelda preg-tabla">Liga:</div>
+					<div class="gridcelda img-tabla"><img id="imgLiga"
+							src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/ligas/blanco-premier.png"
+							alt=""></div>
+					<div id="liga" class="gridcelda resp-tabla">Premier</div>
+
+					<div class="gridcelda preg-tabla">Nacionalidad:</div>
+					<div class="gridcelda img-tabla band"><img id="imgPais"
+							src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/banderas/norway.png"
+							alt=""></div>
+					<div id="pais" class="gridcelda resp-tabla">Noruega</div>
+
+					<div class="gridcelda preg-tabla">Edad:</div>
+					<div class="gridcelda img-tabla"><img id="imgEdad"
+							src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/gral/edad.png"
+							alt=""></div>
+					<div class="gridcelda resp-tabla gr" id="edad">22 años</div>
+
+					<div class="gridcelda ultima preg-tabla">Posición:</div>
+					<div class="gridcelda ultima img-tabla"><img
+							src="https://e00-marca.uecdn.es/multimedia/graficos/futbol/2023/los100demarca2022-2023/img/gral/posicion.png"
+							alt=""></div>
+					<div id="demarcacion" class="gridcelda ultima resp-tabla gr">atacante</div>
+				</div>
+
+
+
+			</div>
+
+
+
+		</div>
+	</div>
+
+</body>
+
+</html>

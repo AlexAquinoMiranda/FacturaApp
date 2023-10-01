@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<div class="card bg-light">
+			<div class="card-header" th:text="${'Crear nuevo item diario'}"></div>
+			<div class="card-body">
+				<h4 class="card-title">
+
+				</h4>
+
+				<form th:action="@{/factura/form}" th:object="${factura}" method="post">
+
+					<div class="form-group row">
+						<label for="cliente" class="col-sm-2 col-form-label" th:text="${'cliente'}"></label>
+						<div class="col-sm-6">
+							<input class="form-control" disabled='disabled' placeholder="Alexis Aquino Miranda" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="nombre" class="col-form-label col-sm-2">Nombre Empresa</label>
+						<div class="col-sm-4">
+							<input type="text" id="nombre" th:field="*{nombreEmpresa}" class="form-control">
+						</div>
+						<div th:if="${#fields.hasErrors('nombreEmpresa')}" th:errors="*{nombreEmpresa}"
+							class="alert alert-danger"></div>
+					</div>
+
+
+
+					<div class="form-group row">
+						<label for="createAt" class="col-form-label col-sm-2">Fecha</label>
+						<div class="col-sm-4">
+							<input type="date"  th:field="*{createAt}" placeholder="dd-MM-yyyy"
+								class="form-control">
+						</div>
+						<div th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"
+							class="alert alert-danger"></div>
+					</div>
+
+
+					<div class="form-group row">
+						<label for="cuenta" class="col-form-label col-sm-2">Cantidad</label>
+						<div class="col-sm-4">
+							<input type="number" id="cuenta" th:field="*{cantidad}" class="form-control">
+						</div>
+						<div th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}"
+							class="alert alert-danger"></div>
+					</div>
+					
+					<div class="form-group row">
+						<label for="cuenta" class="col-form-label col-sm-2">precio/u</label>
+						<div class="col-sm-4">
+							<input type="number" id="cuenta" th:field="*{precio}" class="form-control">
+						</div>
+						<div th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"
+							class="alert alert-danger"></div>
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-sm-6">
+							<input type="submit" th:value="${'agregar item'}" class="btn btn-secondary" />
+						</div>
+					</div>
+					<table th:replace="factura/plantilla-items :: itemsFactura"></table>
+
+
+
+
+				</form>
+
+
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+	<script th:replace="factura/js/autocomplete-productos :: javascript"></script>
+</body>
+
+</html>

@@ -166,11 +166,7 @@ public class UsuarioController {
 			userService.delete(id);
 			flash.addFlashAttribute("success", "Usuario " + usuario.getNombre() + " eliminado con éxito!");
 
-			/**
-			 * if (uploadFileService.delete(cliente.getFoto())) {
-			 * flash.addFlashAttribute("info", "Foto " + jugador.getFoto() + " eliminada con
-			 * exito!"); }
-			 **/
+			
 
 		}
 		return "redirect:/home";
